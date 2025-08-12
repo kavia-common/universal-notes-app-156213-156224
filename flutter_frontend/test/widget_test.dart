@@ -3,16 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_frontend/main.dart';
 
 void main() {
-  testWidgets('App generation message displayed', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Home screen shows Notes title and FAB', (WidgetTester tester) async {
+    await tester.pumpWidget(const NotesApp());
+    await tester.pumpAndSettle();
 
-    expect(find.text('flutter_frontend App is being generated...'), findsOneWidget);
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.text('Notes'), findsOneWidget);
+    expect(find.byType(FloatingActionButton), findsOneWidget);
   });
 
-  testWidgets('App bar has correct title', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Can navigate to create note screen', (WidgetTester tester) async {
+    await tester.pumpWidget(const NotesApp());
+    await tester.pumpAndSettle();
 
-    expect(find.text('flutter_frontend'), findsOneWidget);
+    // Tap FAB to navigate to EditNoteScreen
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+
+    expect(find.text('New Note'), findsOneWidget);
+    expect(find.byType(TextFormField), findsWidgets);
   });
 }
